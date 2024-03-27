@@ -1,178 +1,131 @@
 <html
-  xmlns:mso="urn:schemas-microsoft-com:office:office"
-  xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
->
-  <head>
-    <script>
-      var nome = prompt("Olá, Digite o seu nome: ");
-      alert(`Olá ${nome} é um prazer te conhecer! `);
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operações Bancárias</title>
+</head>
+<body>
+  <script>
+    var nome = prompt("Olá, Digite o seu nome:");
+    alert(`Olá ${nome}, é um prazer te conhecer!`);
 
-      var saldo = 100.5; //Float
-      var senhaAcesso = "3589";
+    var saldo = 100.5; // Saldo inicial
+    var senhaAcesso = "3589";
 
-      function inicio() {
-        function verificarSenha() {
-          var senhaUsuario = prompt("Por favor, digite sua senha:");
+    function inicio() {
+      verificarSenha();
 
-          if (senhaUsuario !== senhaAcesso) {
-            alert("Senha incorreta. Tente novamente.");
-            verificarSenha();
-            return;
-          } else {
-            alert("Senha correta. Bem vindo(a).");
-          }
-        }
+      var escolha = parseInt(prompt(
+        "Selecione uma opção:\n1. Saldo\n2. Depósito\n3. Saque\n4. Extrato\n5. Transferência\n6. Sair"
+      ));
 
-        verificarSenha();
-
-        var escolha = parseInt(
-          prompt(
-            "Selecione uma opção 1. Saldo) 2. Depósito ) 3. Saque) 4. Extrato ) 5. Transferência) 6. Sair"
-          )
-        );
-
-        if (escolha === 1) {
-          ver_saldo();
-        } else if (escolha === 2) {
-          fazer_deposito();
-        } else if (escolha === 3) {
-          fazer_saque();
-        } else if (escolha === 4) {
-          ver_extrato();
-        } else if (escolha === 5) {
-          fazer_transferencia();
-        } else if (escolha === 6) {
+      switch (escolha) {
+        case 1:
+          verSaldo();
+          break;
+        case 2:
+          fazerDeposito();
+          break;
+        case 3:
+          fazerSaque();
+          break;
+        case 4:
+          verExtrato();
+          break;
+        case 5:
+          fazerTransferencia();
+          break;
+        case 6:
           sair();
-        } else {
+          break;
+        default:
           erro();
-        }
       }
+    }
 
-      function ver_saldo() {
-        var senhaUsuario = prompt("Por favor, digite sua senha:");
-
-        if (senhaUsuario !== senhaAcesso) {
-          alert("Senha incorreta. Tente novamente.");
-          ver_saldo();
-          return;
-        }
-        alert("Seu saldo atual é: " + saldo);
-        inicio();
+    function verificarSenha() {
+      var senhaUsuario = prompt("Por favor, digite sua senha:");
+      if (senhaUsuario !== senhaAcesso) {
+        alert("Senha incorreta. Tente novamente.");
+        verificarSenha();
+      } else {
+        alert("Senha correta. Bem vindo(a).");
       }
+    }
 
-      function fazer_deposito() {
-        var senhaUsuario = prompt("Por favor, digite sua senha:");
-        if (senhaUsuario !== senhaAcesso) {
-          alert("Senha incorreta, tente novamente.");
-          fazer_deposito();
-        }
-
-        var deposito = parseFloat(prompt("Qual o valor para depósito?"));
-
-        if (isNaN(deposito) || deposito === "") {
-          alert("Por favor, informe um número:");
-          fazer_deposito();
-        } else if (deposito <= 0) {
-          alert("Operação negada");
-          fazer_deposito();
-        } else {
-          saldo += deposito;
-          ver_saldo();
-        }
-      }
-
-      function fazer_saque() {
-        var senhaUsuario = prompt("Por favor, digite sua senha:");
-        if (senhaUsuario !== senhaAcesso) {
-          alert("Senha incorreta, tente novamente.");
-        }
-        var saque = parseFloat(prompt("Qual o valor para saque?"));
-        if (isNaN(saque) || saque === "") {
-          alert("Por favor, informe um valor para realizar o saque:");
-          fazer_saque();
-        } else if (saque > saldo) {
-          alert(
-            "Operação negada, valor do saque maior doque existe na conta bancária. Por favor informe um outro valor."
-          );
-          fazer_saque();
-        } else if (saque <= 0) {
-          alert("Operação inválida");
-          fazer_saque();
-        } else {
-          saldo -= saque;
-          ver_saldo();
-        }
-      }
-
-      function ver_extrato() {
-        var senhaUsuario = prompt("Por favor, digite sua senha:");
-        if (senhaUsuario !== senhaAcesso) {
-          alert("Senha incorreta, tente novamente.");
-        }
-
-        alert("Compra no MC Donalds R$ 16,00, Compra na AMAZON R$ 400");
-      }
-
-      function fazer_transferencia() {
-        var senhaUsuario = prompt("Por favor, digite sua senha:");
-        if (senhaUsuario !== senhaAcesso) {
-          alert("Senha incorreta, tente novamente.");
-        }
-
-        var conta;
-
-        while (true) {
-          conta = parseFloat(
-            prompt("Digite o número da conta que deseja transferir o valor: ")
-          );
-
-          if (!isNaN(conta)) {
-            break;
-          }
-
-          alert("Porfavor digite um número válido .");
-        }
-
-        var valorTransferencia = parseFloat(
-          prompt("Digite o valor da transferência: ")
-        );
-        if (valorTransferencia > saldo) {
-          alert("Operação não autorizada.");
-          fazer_transferencia();
-        } else if (valorTransferencia <= 0) {
-          alert("Operação não autorizada");
-          fazer_transferencia();
-        } else {
-          saldo -= valorTransferencia;
-          alert(
-            "O valor de " +
-              valorTransferencia.toFixed(2) +
-              " Foi realizado com sucesso :)"
-          );
-          inicio();
-        }
-      }
-
-      function erro() {
-        alert("Por favor, informe um número entre 1 e 6");
-        inicio();
-      }
-
-      function sair() {
-        var confirma = confirm("Você deseja sair?");
-        if (confirma) {
-          alert(`Obrigado por utilizar os serviços do banco, ${nome}!`);
-          window.close();
-        } else {
-          inicio();
-        }
-      }
-
+    function verSaldo() {
+      verificarSenha();
+      alert("Seu saldo atual é: " + saldo);
       inicio();
-    </script>
+    }
 
-    <title></title>
-  </head>
+    function fazerDeposito() {
+      verificarSenha();
+      var deposito = parseFloat(prompt("Qual o valor para depósito?"));
 
-  <body></body>
+      if (isNaN(deposito) || deposito <= 0) {
+        alert("Operação negada. Valor de depósito inválido.");
+        fazerDeposito();
+      } else {
+        saldo += deposito;
+        alert("Depósito realizado com sucesso. Novo saldo: " + saldo);
+        inicio();
+      }
+    }
+
+    function fazerSaque() {
+      verificarSenha();
+      var saque = parseFloat(prompt("Qual o valor para saque?"));
+
+      if (isNaN(saque) || saque <= 0 || saque > saldo) {
+        alert("Operação negada. Valor de saque inválido ou saldo insuficiente.");
+        fazerSaque();
+      } else {
+        saldo -= saque;
+        alert("Saque realizado com sucesso. Novo saldo: " + saldo);
+        inicio();
+      }
+    }
+
+    function verExtrato() {
+      verificarSenha();
+      alert("Compra no MC Donalds R$ 16,00, Compra na AMAZON R$ 400");
+      inicio();
+    }
+
+    function fazerTransferencia() {
+      verificarSenha();
+      var conta = parseFloat(prompt("Digite o número da conta que deseja transferir o valor: "));
+      var valorTransferencia = parseFloat(prompt("Digite o valor da transferência: "));
+
+      if (isNaN(conta) || isNaN(valorTransferencia) || valorTransferencia <= 0 || valorTransferencia > saldo) {
+        alert("Operação não autorizada. Verifique os valores informados.");
+        fazerTransferencia();
+      } else {
+        saldo -= valorTransferencia;
+        alert("Transferência realizada com sucesso.");
+        inicio();
+      }
+    }
+
+    function erro() {
+      alert("Por favor, informe um número entre 1 e 6");
+      inicio();
+    }
+
+    function sair() {
+      var confirma = confirm("Você deseja sair?");
+      if (confirma) {
+        alert(`Obrigado por utilizar os serviços do banco, ${nome}!`);
+        window.close();
+      } else {
+        inicio();
+      }
+    }
+
+    inicio();
+  </script>
+</body>
 </html>
